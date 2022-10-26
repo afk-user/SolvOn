@@ -1,3 +1,10 @@
+<title>SolvOn | Semestres</title>
+
+<div class="topnav">
+  <a href="{% url 'solvit:index' %}">Página Principal</a>
+  <a href="{% url 'solvit:semesters' %}">Vista Semestral</a>
+</div>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 .collapsible {
@@ -24,7 +31,7 @@
 }
 </style>
 
-
+<h1>Lista por Semestres</h1>
 {% if semester_list %}
     <ul>
     {% for semester_num in semester_list %}
@@ -33,7 +40,7 @@
         <ul><p>
         {% for course in course_list %}
           {% if course.semester_given == semester_num %}
-            <li>{{ course.course_name }}</li>
+            <li><a href="{{ course.get_absolute_url }}">{{ course.course_name }} | {{course.course_code}}</a></li>
           {% endif %}
         {% endfor %}
         </p></ul>
