@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.shortcuts import render, HttpResponse
 from django.views import generic
 from .models import Semester, Course, Topic
@@ -26,8 +27,15 @@ class SemestersView(generic.ListView):
         context['course_list'] = list(Course.objects.all())
         return context
 
-class CourseView(generic.DetailView):
+class CourseView(generic.ListView):
     template_name = 'solvit/course.html'
-    model = Topic.objects
-
-
+    model = Topic
+    context_object_name = 'topic_list'
+    paginate_by = 10
+    
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        fltr = self.kwargs['slug']
+        if fltr != 'all':
+            qs = qs.filter(belonging_course=fltr)
+        return qs

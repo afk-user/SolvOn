@@ -21,7 +21,7 @@ class Course(models.Model):     # Modelo que representa un ramo
 class Topic(models.Model):
     # Campos por Rellenar
     topic_name = models.CharField(max_length=200, help_text='Ingresar nombre de la materia', null=True)
-    belonging_course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
+    belonging_course = models.SlugField(max_length=6,help_text='Ingresar código del ramo',null=True)
     semester_given = models.ForeignKey('Semester', on_delete=models.SET_NULL, null=True)
 
     # Metadata

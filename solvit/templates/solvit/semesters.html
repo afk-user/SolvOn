@@ -33,10 +33,10 @@
 
 <h1>Lista por Semestres</h1>
 {% if semester_list %}
-    <ul>
-    {% for semester_num in semester_list %}
+  <ul>
+  {% for semester_num in semester_list %}
     <button type="button" class="collapsible">{{ semester_num }}</button>
-        <div class="content">
+      <div class="content">
         <ul><p>
         {% for course in course_list %}
           {% if course.semester_given == semester_num %}
@@ -44,9 +44,9 @@
           {% endif %}
         {% endfor %}
         </p></ul>
-        </div>
-    {% endfor %}
-    </ul>
+      </div>
+  {% endfor %}
+  </ul>
 {% else %}
 <p>No hay información disponible en este momento.</p>
 {% endif %}
