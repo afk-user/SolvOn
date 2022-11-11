@@ -32,9 +32,6 @@ class CourseView(generic.ListView):
     model = Topic
     context_object_name = 'topic_list'
     
-    def get_queryset(self, **kwargs):
-        return 
-    
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         fltr = self.kwargs['slug']
