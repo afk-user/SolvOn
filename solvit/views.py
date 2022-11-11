@@ -31,7 +31,9 @@ class CourseView(generic.ListView):
     template_name = 'solvit/course.html'
     model = Topic
     context_object_name = 'topic_list'
-    paginate_by = 10
+    
+    def get_queryset(self, **kwargs):
+        return 
     
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)

@@ -1,11 +1,7 @@
+{% extends "solvit/main.html" %}
 <title>SolvOn</title>
 
-<div class="topnav">
-  <a class="active" href="{% url 'solvit:index' %}">Página Principal</a>
-  <a href="{% url 'solvit:semesters' %}">Vista Semestral</a>
-</div>
-
-{% block content %}
+{% block page_content %}
 <h1>SolvOn</h1>
   <p>¡Bienvenidos a SolvOn, un sitio web desarrollado por <em>El Equipo de SolvOn</em>!</p>
 <h2>Contenido Dinámico</h2>

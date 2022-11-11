@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    {% block title %}<title>SolvOn</title>{% endblock %}
+<head>
+    <div class="topnav">
+        <a href="{% url 'solvit:index' %}">Página Principal</a>
+        <a href="{% url 'solvit:semesters' %}">Vista Semestral</a>
+    </div>
+</head>
+</html>
+{% block page_content %}{%endblock%}
