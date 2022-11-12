@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+import unicodedata
 
 class Semester(models.Model):   # Modelo que representa un semestre
     semester_num = models.IntegerField(help_text='Ingresar n° del semestre', null=True)
@@ -18,7 +19,7 @@ class Course(models.Model):     # Modelo que representa un ramo
     def get_absolute_url(self):
         return f"/solvit/course/{self.course_code}"
 
-class Topic(models.Model):
+class Topic(models.Model):      # Modelo que representa una materia
     # Campos por Rellenar
     topic_name = models.CharField(max_length=200, help_text='Ingresar nombre de la materia', null=True)
     belonging_course = models.SlugField(max_length=6,help_text='Ingresar código del ramo',null=True)
@@ -30,12 +31,15 @@ class Topic(models.Model):
     
     # Métodos
     def get_absolute_url(self):
-        return f"/solvit/{self.topic_name.replace(' ','_')}"
+        underscorer = self.topic_name.replace(' ','_')
+        validator = underscorer.replace("'","_")
+        final_slug = strip_accents(validator)
+        return f"/solvit/{final_slug}"
 
     def __str__(self):
         return self.topic_name
 
-class Excercise(models.Model):
+class Excercise(models.Model):  # Modelo que representa un ejercicio
     excercise_name = models.CharField(max_length=200,null=True)
     belonging_topic = models.SlugField(max_length=200,help_text='Ingresar nombre de la materia',null=True)
     excersise = models.CharField(max_length=200,help_text='Ingresar link de la imagen',null=True)
@@ -43,3 +47,11 @@ class Excercise(models.Model):
     
     def __str__(self):
         return self.excercise_name
+    
+    def get_topic(self):
+        return self.belonging_topic.replace('_',' ')
+
+
+def strip_accents(s):   # función que quita vocales con acentos
+    return ''.join(c for c in unicodedata.normalize('NFD', s)
+                    if unicodedata.category(c) != 'Mn')

@@ -1,7 +1,16 @@
 {% extends "solvit/main.html" %}
+
+{% block title %}
+{% for excercise in ex_list|slice:":1" %}
+<title>SolvOn | {{ excercise.get_topic }}</title>
+{% endfor %}
+{% endblock %}
+
 {% block page_content %}
 <body>
-    <br>
+    {% for excercise in ex_list|slice:":1" %}
+        <h2>{{ excercise.get_topic }}</h2>
+    {% endfor %}
     <button onclick="history.back()">Volver al ramo</button>
     <ul>
         {% for excercise in ex_list %}

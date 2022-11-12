@@ -34,15 +34,17 @@ class CourseView(generic.ListView):
     model = Topic
     context_object_name = 'topic_list'
     
-    
+    def get_queryset(self, *args, **kwargs): # filtro de materias por ramo
+        qs = super().get_queryset(*args, **kwargs)
+        fltr = self.kwargs['slug']
+        if fltr != 'all':
+            qs = qs.filter(belonging_course=fltr)
+        return qs
 
 class TopicView(generic.ListView):
     model = Excercise
     template_name = 'solvit/topic.html'
     context_object_name = "ex_list"
-    
-    def get_queryset(self):
-        return Excercise.objects.all()
     
     def get_queryset(self, *args, **kwargs): # filtro de materias por ramo
         qs = super().get_queryset(*args, **kwargs)
@@ -50,6 +52,11 @@ class TopicView(generic.ListView):
         if fltr != 'all':
             qs = qs.filter(belonging_topic=fltr)
         return qs
+
+    '''def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course_list'] = list(Course.objects.all())
+        return context'''
     
     #MyModel.objects.order_by('?')
 
