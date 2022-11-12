@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Semester, Topic
+from .models import Course, Semester, Topic, Excercise
 
 @admin.register(Semester)
 class SemesterAdmin(admin.ModelAdmin):
@@ -14,3 +14,7 @@ class CourseAdmin(admin.ModelAdmin):
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('topic_name','belonging_course','semester_given')
     list_filter = ('belonging_course','semester_given')
+
+@admin.register(Excercise)
+class QuesAdmin(admin.ModelAdmin):
+    pass

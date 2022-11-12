@@ -1,7 +1,9 @@
 from pyexpat import model
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse
 from django.views import generic
-from .models import Semester, Course, Topic
+from .models import Semester, Course, Topic, Excercise
+from django.contrib.auth import login,logout,authenticate
+from .forms import *
 
 def index(request):
     num_semesters = Semester.objects.all().count()
@@ -32,9 +34,56 @@ class CourseView(generic.ListView):
     model = Topic
     context_object_name = 'topic_list'
     
-    def get_queryset(self, *args, **kwargs):
+    
+
+class TopicView(generic.ListView):
+    model = Excercise
+    template_name = 'solvit/topic.html'
+    context_object_name = "ex_list"
+    
+    def get_queryset(self):
+        return Excercise.objects.all()
+    
+    def get_queryset(self, *args, **kwargs): # filtro de materias por ramo
         qs = super().get_queryset(*args, **kwargs)
         fltr = self.kwargs['slug']
         if fltr != 'all':
-            qs = qs.filter(belonging_course=fltr)
+            qs = qs.filter(belonging_topic=fltr)
         return qs
+    
+    #MyModel.objects.order_by('?')
+
+# ------------------------------------------------------------------------------
+
+def registerPage(request):
+    if request.user.is_authenticated:
+        return redirect('/') 
+    else: 
+        form = createuserform()
+        if request.method=='POST':
+            form = createuserform(request.POST)
+            if form.is_valid() :
+                user=form.save()
+                return redirect('login')
+        context={
+            'form':form,
+        }
+        return render(request,'solvit/register.html',context)
+ 
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+       if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        user=authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('/')
+       context={}
+       return render(request,'solvit/login.html',context)
+ 
+def logoutPage(request):
+    logout(request)
+    return redirect('/')

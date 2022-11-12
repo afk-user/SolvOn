@@ -30,7 +30,16 @@ class Topic(models.Model):
     
     # Métodos
     def get_absolute_url(self):
-        return f"/course/{Course.course_code}/{self.topic_name}"
+        return f"/solvit/{self.topic_name.replace(' ','_')}"
 
     def __str__(self):
         return self.topic_name
+
+class Excercise(models.Model):
+    excercise_name = models.CharField(max_length=200,null=True)
+    belonging_topic = models.SlugField(max_length=200,help_text='Ingresar nombre de la materia',null=True)
+    excersise = models.CharField(max_length=200,help_text='Ingresar link de la imagen',null=True)
+    excersise_video = models.CharField(max_length=200,help_text='www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel --> dQw4w9WgXcQ',null=True)
+    
+    def __str__(self):
+        return self.excercise_name
